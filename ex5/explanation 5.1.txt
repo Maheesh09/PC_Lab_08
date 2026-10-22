@@ -1,0 +1,7 @@
+A message is delivered only when the receive matches it: the same communicator, the receive's source equals the sender's rank, and the tags are equal.
+
+Rank 0's message is addressed to rank 1, but rank 1 only accepts messages from rank 2, so it doesn't match. MPI_Recv is blocking, so rank 1 waits forever. That's a deadlock.
+
+Rank 0 still prints "sent", because a small message is copied into MPI's internal buffer and MPI_Send returns (eager send). The message just sits there, never received. With MPI_Ssend (synchronous), rank 0 would hang too.
+
+A tag mismatch (sending with tag 0, receiving with tag 1) causes exactly the same hang.
