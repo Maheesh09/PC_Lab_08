@@ -1,0 +1,7 @@
+π (Ex 3): speedup is almost perfect up to the number of cores (≈ 2.0× on 2 cores), because the work is heavy (20 million random numbers) and there's only one message per process. Beyond the core count the speedup stops growing: extra processes just take turns on the same cores.
+
+Sum (Ex 2): the graph is flat and noisy. Adding 10 million numbers takes only about 3 ms, so the fixed costs (starting MPI, sending messages, the barrier) are as big as the work itself. Lesson: parallelism only pays off when there's enough work per process.
+
+Why below ideal: communication time, the serial part (rank 0 adding results and printing — Amdahl's law), and processes > cores.
+
+On multiple nodes, small messages cost more (they cross the network), but π still scales well because it hardly communicates.
